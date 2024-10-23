@@ -1,0 +1,31 @@
+
+p.abstract{
+    margin-left: 0.5;
+    margin-right: 0.5;
+    font-style: italic;
+}
+
+body{font-family: Arial, Helvetica, sans-serif;}
+ a.nodec{text-decoration: none;}
+ a:hover{text-decoration: underline;}
+ li em {font-weight: bold;}
+ h1, em {text-decoration: underline;}
+ ul {margin-left: 20px;}
+ ul ul {font-size: .8em;}
+
+ .background_imag{position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;  }
+   .foreground_image{position: absolute;
+        top: 25px;
+        left: 100px;
+        z-index: 2;
+    }
+    .text{position: absolute;
+        top: 25px;
+        left: 100px;
+        z-index: 3;
+        font-size: 20pt;
+        font-family: geneva, tahoma, sans-serif;
+    }

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Reservation - Restaurant</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('Background.webp');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 24px; 
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+            font-size: 16px; 
+        }
+        input[type="date"],
+        input[type="number"],
+        input[type="text"],
+        input[type="tel"],
+        select {
+            width: 80%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px; 
+            color: #555555e0;
+        }
+        button {
+            background-color: #cdbbab;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px; 
+        }
+        button:hover {
+            background-color: #5058d4;
+        }
+        .guest-count {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .guest-count button {
+            width: 30px; 
+            height: 30px; 
+            font-size: 18px; 
+        }
+        .guest-count input {
+            width: 40px;
+            text-align: center; 
+            font-size: 16px; 
+            margin: 0 5px; 
+        }
+        .time-slot {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .time-slot input {
+            margin-right: 10px;
+        }
+        ::placeholder{
+            color: rgba(85, 85, 85, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Table Reservation</h1>
+    <label for="name">Name</label>
+    <input type="text" placeholder="Your name or reservation name" required>
+    <label for="tel">Phone Number</label>
+    <input type="tel" placeholder="05XXXXXXXX" required>
+    <label for="date">Reservation Date</label>
+    <input type="date" id="date" required>
+
+    <label for="table">Choose Table Location</label>
+    <select id="table">
+        <option value="view">View</option>
+        <option value="kitchen">In Front of the Kitchen</option>
+        <option value="outdoor">Outdoor</option>
+        <option value="corner">Quiet Corner</option>
+        <option value="private">Private Room</option>
+    </select>
+
+    <label>Number of Guests</label>
+    <div class="guest-count">
+        <button onclick="decreaseGuests()">-</button>
+        <input type="number" id="guests" min="1" max="10" value="2" readonly required>
+        <button onclick="increaseGuests()">+</button>
+    </div>
+
+    <label>Available Times</label>
+    <div class="time-slot">
+        <input type="radio" id="time1" name="time" value="5:30 pm" required>
+        <label for="time1">5:30 PM</label>
+        <input type="radio" id="time2" name="time" value="6:00 pm" required>
+        <label for="time2">6:00 PM</label>
+        <input type="radio" id="time3" name="time" value="6:30 pm" required>
+        <label for="time3">6:30 PM</label>
+    </div>
+
+    <label>Any Notes?</label>
+    <input type="text" placeholder="Notes about the reservation">
+
+    <button type="submit" onclick="submitReservation()">Submit Reservation</button>
+</div>
+<script>
+    // Set today's date as the value for the date input
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').value = today;
+    });
+
+    function increaseGuests() {
+        const guestsInput = document.getElementById('guests');
+        let currentValue = parseInt(guestsInput.value);
+        if (currentValue < 10) {
+            guestsInput.value = currentValue + 1;
+        }
+    }
+
+    function decreaseGuests() {
+        const guestsInput = document.getElementById('guests');
+        let currentValue = parseInt(guestsInput.value);
+        if (currentValue > 1) {
+            guestsInput.value = currentValue - 1;
+        }
+    }
+
+    function submitReservation() {
+    Swal.fire({
+        title: 'Do you want to complete the reservation without selecting orders or choose orders?',
+        showCancelButton: true,
+        confirmButtonText: 'Complete Reservation',
+        cancelButtonText: 'Choose Orders'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            alert("Your reservation has been successfully made!");
+        } else if (result.isDismissed) {
+            window.location.href = "menu.html"; // Replace with the actual path to your menu page
+        }
+    });
+}
+</script>
+</body>
+</html>

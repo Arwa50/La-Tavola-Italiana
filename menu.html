@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">La Tavola italiana</a>
+        <nav class="navigation">
+            <a href="#PIZZA">PIZZA</a>
+            <a href="#PASTA">PASTA</a>
+            <a href="#desserts">Desserts</a>
+            <a href="#drinks">Drinks</a>
+            <a href="login.html">Login</a>
+            <a href="#cart" id="cartLink">Cart (<span id="cartCount">0</span>)</a>
+            
+        </nav>
+    </header>
+
+
+    <section id="PIZZA">
+        <h2>PIZZA</h2>
+        <ul>
+            <li>
+                <img src="vegetable-pizza.jpeg" alt="Description of the image" width="400" height="200" >
+
+                
+            </li>
+            <li>
+                <span>Vegetable pizza.<br>$9.00</span>
+                <span><button onclick="addToCart('Vegetable pizza', 9.00)">Add to Cart</button></span>
+            </li>
+            <li>
+                <img src="margherita-pizza.jpeg" alt="Description of the image" width="400" height="200" >
+               
+            </li>
+            <li>
+                <span>Margherita pizza.<br>$8.00</span>
+                 <span><button onclick="addToCart('Margherita pizza', 8.00)">Add to Cart</button></span>
+            </li>
+             <li>
+            <img src="classic-pizza.jpeg" alt="Description of the image" width="400" height="200" >
+           
+        </li>
+        <li>
+            <span>classic pizza.<br>$8.00</span>
+                <span><button onclick="addToCart('Classic pizza', 8.00)">Add to Cart</button></span>
+              
+              
+        </li>
+        <li>
+            <img src="pepperoni-pizza.jpeg" alt="Description of the image" width="400" height="200" >
+           
+        </li>
+        <li>
+            <span>pepperoni pizza.<br>$10.00</span>
+             <span><button onclick="addToCart('Pepperoni pizza', 10.00)">Add to Cart</button></span>
+        </li>
+        </ul>
+       
+    </ul>
+    </section>
+
+    <section id="PASTA">
+        <h2>PASTA </h2>
+        <ul>
+            <li>
+                <img src="Pasta-creamy-tomato.jpg" alt="Description of the image" width="400" height="200" >
+                
+            </li>
+            <li>
+                <span>Pasta withe creamy tomato<br>$20.00</span>
+                <span> <button onclick="addToCart('Pasta with creamy tomato', 20.00)">Add to Cart</button></span>
+            </li>
+            <li>
+                <img src="Pasta-Salad.webp" alt="Description of the image" width="400" height="200" >
+                
+            </li>
+            <li>
+                <span>Pasta Salad<br>$14.00</span>
+                <span><button onclick="addToCart('Pasta Salad', 14.00)">Add to Cart</button></span>
+            </li>
+            <li>
+                <img src="Pasta-white-chesses.jpg" alt="Description of the image" width="400" height="200" >
+                
+            </li>
+            <li>
+                <span>Pasta withe withe chesse <br>$22.00</span>
+                <span><button onclick="addToCart('Pasta with white cheese', 22.00)">Add to Cart</button></span>
+            </li>
+        </ul>
+    </section>
+
+    <section id="desserts">
+        <h2>Desserts</h2>
+        <ul>
+            <li>
+                <img src="cheesecake.jpg" alt="Description of the image" width="400" height="200" >
+                
+            </li>
+            <li>
+                <span>cheesecake<br>$22.00</span>
+                <span> <button onclick="addToCart('Cheesecake', 22.00)">Add to Cart</button></span>
+            </li>
+            <li>
+                <img src="teramessoo.jpg" alt="Description of the image" width="400" height="200" >
+                
+            </li>
+            <li>
+                <span>Tiramisu<br>$15.00</span>
+                <span><button onclick="addToCart('Tiramisu', 15.00)">Add to Cart</button></span>
+                <li>
+                    <img src="italian-desserts.jpg" alt="Description of the image" width="400" height="200" >
+                    
+                </li>
+                <li>
+                    <span>Italiano Dessert<br> $22.00</span>
+                    <span> <button onclick="addToCart('Italian Dessert', 22.00)">Add to Cart</button></span>
+                </li>
+           
+        </ul>
+    </section>
+
+    <section id="drinks">
+        <h2>Drinks</h2>
+        <ul>
+            <li>
+                <span>Peppsi<br>$3.00</span>
+                <span><button onclick="addToCart('Peppsi', 3.00)">Add to Cart</button></span>
+            </li>
+            <li>
+                <span>Tea<br>$2.50</span>
+                <span><button onclick="addToCart('Tea', 2.50)">Add to Cart</button></span>
+            </li>
+            <li>
+                <span>Italiano coffee<br>$2.00</span>
+                <span><button onclick="addToCart('Italiano coffee', 2.00)">Add to Cart</button></span>
+            </li>
+        </ul>
+    </section>
+    <section id="cart" class="cart">
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <strong>Total: $<span id="totalPrice">0.00</span></strong>
+    </section>
+
+    <script>
+        let cart = [];
+        let total = 0;
+        let isLoggedIn = false;
+
+        function addToCart(item, price) {
+            if (!isLoggedIn) {
+                alert("يرجى تسجيل الدخول لإضافة عناصر إلى السلة.");
+                return;
+            }
+            cart.push({ item, price });
+            total += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            cartItemsDiv.innerHTML = '';
+            cart.forEach(cartItem => {
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `<span>${cartItem.item}</span><span>$${cartItem.price.toFixed(2)}</span>`;
+                cartItemsDiv.appendChild(div);
+            });
+            document.getElementById('totalPrice').textContent = total.toFixed(2);
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        
+    </script>
+
+</body>
+</html>  

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Responsive Login Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="LoginStyle.css" />
+    <script>
+      function validateLoginForm() {
+        // Get form elements
+        var email = document.getElementById('loginEmail').value;
+        var password = document.getElementById('loginPassword').value;
+
+        // Regular expression for validating email
+        var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+        // Email validation
+        if (!emailPattern.test(email)) {
+          alert("Please enter a valid email address.");
+          return false;
+        }
+
+        // Password validation
+        if (password === "") {
+          alert("Password is required.");
+          return false;
+        }
+
+        return true; // Allow form submission if valid
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Logo Section -->
+     <div class="logo-container">
+      <a href="#">
+        <img src="Logo.jpg" alt="Logo" class="logo" />
+      </a>
+    </div>
+
+    <div class="container">
+      <h1 class="form-title">Login</h1>
+      <form action="#" onsubmit="return validateLoginForm()">
+        <div class="main-user-info">
+          <div class="user-input-box">
+            <label for="loginEmail">Email</label>
+            <input type="email"
+                   id="loginEmail"
+                   name="loginEmail"
+                   placeholder="Enter Email"
+                   required />
+          </div>
+          <div class="user-input-box">
+            <label for="loginPassword">Password</label>
+            <input type="password"
+                   id="loginPassword"
+                   name="loginPassword"
+                   placeholder="Enter Password"
+                   required />
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="remember-me-box">
+            <input type="checkbox" id="rememberMe" name="rememberMe">
+            <label for="rememberMe">Remember me</label>
+          </div>
+        </div>
+
+        <!-- Forgot Password and Registration Links -->
+        <div class="form-extra-options">
+          <a href="ForgotPassword.html">Forgot password?</a>
+          <span> | </span>
+          <a href="registration.html">Don't have an account? Register now</a>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-submit-btn">
+          <input type="submit" value="Login">
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

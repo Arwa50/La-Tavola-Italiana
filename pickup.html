@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Branch</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img id="logo" src="logo.png" alt="Restaurant Logo"> <!-- Reference the new logo -->
+    <div class="container">
+        <h1>Select Branch</h1>
+        <form id="pickup-form">
+            <div class="input-group">
+                <label for="branch">Branch</label>
+                <select id="branch" required>
+                    <option value="Hitte Branch">Hitte Branch</option>
+                    <option value="Almalqa Branch">Almalqa Branch</option>
+                </select>
+            </div>
+
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('pickup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Store form data in localStorage
+            localStorage.setItem('branch', document.getElementById('branch').value);
+            localStorage.setItem('name', 'N/A'); // No name needed for branch pickup
+            localStorage.setItem('address', 'N/A'); // No address needed for branch pickup
+            localStorage.setItem('phone', 'N/A'); // No phone needed for branch pickup
+
+            alert('Branch Selected: ' + document.getElementById('branch').value);
+        });
+    </script>
+</body>
+</html>
