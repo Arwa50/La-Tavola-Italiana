@@ -3,92 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - La Tavola Italiana</title>
     
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #cdbbab;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .header .logo {
+            font-size: 1.8em;
+            text-decoration: none;
+            color: white;
+        }
+
+        .navigation {
+            margin: 15px 0;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        .navigation a:hover {
+            background-color: #34495e;
+            border-radius: 5px;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        section {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        img {
+            border-radius: 8px;
+        }
+
+        button {
+            background-color: #cdbbab;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #a1866e;
+        }
+
+        .cart {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .cart-item button {
+            background-color: red; 
+        }
+
+        #cartCount {
+            font-weight: bold;
+        }
+
+        strong {
+            font-size: 1.2em;
+        }
+
+        .checkout-btn {
+            background-color: #27ae60; 
+            padding: 10px 20px;
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #219150;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <a href="#" class="logo">La Tavola italiana</a>
+        <div class="header">
+            <a href="#" class="logo">La Tavola italiana</a>
+        </div>
         <nav class="navigation">
             <a href="#PIZZA">PIZZA</a>
             <a href="#PASTA">PASTA</a>
             <a href="#desserts">Desserts</a>
             <a href="#drinks">Drinks</a>
-            <a href="login.html">Login</a>
+            <a href="/MyRestrunt/Front-end/Login/login.html">Login</a>
             <a href="#cart" id="cartLink">Cart (<span id="cartCount">0</span>)</a>
-            
         </nav>
     </header>
-
 
     <section id="PIZZA">
         <h2>PIZZA</h2>
         <ul>
             <li>
-                <img src="vegetable-pizza.jpeg" alt="Description of the image" width="400" height="200" >
-
-                
-            </li>
-            <li>
+                <img src="vegetable-pizza.jpeg" alt="Vegetable Pizza" width="400" height="200">
                 <span>Vegetable pizza.<br>$9.00</span>
                 <span><button onclick="addToCart('Vegetable pizza', 9.00)">Add to Cart</button></span>
             </li>
             <li>
-                <img src="margherita-pizza.jpeg" alt="Description of the image" width="400" height="200" >
-               
+                <img src="margherita-pizza.jpeg" alt="Margherita Pizza" width="400" height="200">
+                <span>Margherita pizza.<br>$8.00</span>
+                <span><button onclick="addToCart('Margherita pizza', 8.00)">Add to Cart</button></span>
             </li>
             <li>
-                <span>Margherita pizza.<br>$8.00</span>
-                 <span><button onclick="addToCart('Margherita pizza', 8.00)">Add to Cart</button></span>
-            </li>
-             <li>
-            <img src="classic-pizza.jpeg" alt="Description of the image" width="400" height="200" >
-           
-        </li>
-        <li>
-            <span>classic pizza.<br>$8.00</span>
+                <img src="classic-pizza.jpeg" alt="Classic Pizza" width="400" height="200">
+                <span>Classic pizza.<br>$8.00</span>
                 <span><button onclick="addToCart('Classic pizza', 8.00)">Add to Cart</button></span>
-              
-              
-        </li>
-        <li>
-            <img src="pepperoni-pizza.jpeg" alt="Description of the image" width="400" height="200" >
-           
-        </li>
-        <li>
-            <span>pepperoni pizza.<br>$10.00</span>
-             <span><button onclick="addToCart('Pepperoni pizza', 10.00)">Add to Cart</button></span>
-        </li>
+            </li>
+            <li>
+                <img src="pepperoni-pizza.jpeg" alt="Pepperoni Pizza" width="400" height="200">
+                <span>Pepperoni pizza.<br>$10.00</span>
+                <span><button onclick="addToCart('Pepperoni pizza', 10.00)">Add to Cart</button></span>
+            </li>
         </ul>
-       
-    </ul>
     </section>
 
     <section id="PASTA">
-        <h2>PASTA </h2>
+        <h2>PASTA</h2>
         <ul>
             <li>
-                <img src="Pasta-creamy-tomato.jpg" alt="Description of the image" width="400" height="200" >
-                
+                <img src="Pasta-creamy-tomato.jpg" alt="Pasta with Creamy Tomato" width="400" height="200">
+                <span>Pasta with creamy tomato<br>$20.00</span>
+                <span><button onclick="addToCart('Pasta with creamy tomato', 20.00)">Add to Cart</button></span>
             </li>
             <li>
-                <span>Pasta withe creamy tomato<br>$20.00</span>
-                <span> <button onclick="addToCart('Pasta with creamy tomato', 20.00)">Add to Cart</button></span>
-            </li>
-            <li>
-                <img src="Pasta-Salad.webp" alt="Description of the image" width="400" height="200" >
-                
-            </li>
-            <li>
+                <img src="Pasta-Salad.webp" alt="Pasta Salad" width="400" height="200">
                 <span>Pasta Salad<br>$14.00</span>
                 <span><button onclick="addToCart('Pasta Salad', 14.00)">Add to Cart</button></span>
             </li>
             <li>
-                <img src="Pasta-white-chesses.jpg" alt="Description of the image" width="400" height="200" >
-                
-            </li>
-            <li>
-                <span>Pasta withe withe chesse <br>$22.00</span>
+                <img src="Pasta-white-chesses.jpg" alt="Pasta with White Cheese" width="400" height="200">
+                <span>Pasta with white cheese<br>$22.00</span>
                 <span><button onclick="addToCart('Pasta with white cheese', 22.00)">Add to Cart</button></span>
             </li>
         </ul>
@@ -98,29 +197,20 @@
         <h2>Desserts</h2>
         <ul>
             <li>
-                <img src="cheesecake.jpg" alt="Description of the image" width="400" height="200" >
-                
+                <img src="cheesecake.jpg" alt="Cheesecake" width="400" height="200">
+                <span>Cheesecake<br>$22.00</span>
+                <span><button onclick="addToCart('Cheesecake', 22.00)">Add to Cart</button></span>
             </li>
             <li>
-                <span>cheesecake<br>$22.00</span>
-                <span> <button onclick="addToCart('Cheesecake', 22.00)">Add to Cart</button></span>
-            </li>
-            <li>
-                <img src="teramessoo.jpg" alt="Description of the image" width="400" height="200" >
-                
-            </li>
-            <li>
+                <img src="teramessoo.jpg" alt="Tiramisu" width="400" height="200">
                 <span>Tiramisu<br>$15.00</span>
                 <span><button onclick="addToCart('Tiramisu', 15.00)">Add to Cart</button></span>
-                <li>
-                    <img src="italian-desserts.jpg" alt="Description of the image" width="400" height="200" >
-                    
-                </li>
-                <li>
-                    <span>Italiano Dessert<br> $22.00</span>
-                    <span> <button onclick="addToCart('Italian Dessert', 22.00)">Add to Cart</button></span>
-                </li>
-           
+            </li>
+            <li>
+                <img src="italian-desserts.jpg" alt="Italiano Dessert" width="400" height="200">
+                <span>Italiano Dessert<br>$22.00</span>
+                <span><button onclick="addToCart('Italian Dessert', 22.00)">Add to Cart</button></span>
+            </li>
         </ul>
     </section>
 
@@ -128,35 +218,52 @@
         <h2>Drinks</h2>
         <ul>
             <li>
-                <span>Peppsi<br>$3.00</span>
-                <span><button onclick="addToCart('Peppsi', 3.00)">Add to Cart</button></span>
+                <span>Pepsi<br>$3.00</span>
+                <span><button onclick="addToCart('Pepsi', 3.00)">Add to Cart</button></span>
             </li>
             <li>
                 <span>Tea<br>$2.50</span>
                 <span><button onclick="addToCart('Tea', 2.50)">Add to Cart</button></span>
             </li>
             <li>
-                <span>Italiano coffee<br>$2.00</span>
-                <span><button onclick="addToCart('Italiano coffee', 2.00)">Add to Cart</button></span>
+                <span>Italiano Coffee<br>$2.00</span>
+                <span><button onclick="addToCart('Italiano Coffee', 2.00)">Add to Cart</button></span>
             </li>
         </ul>
     </section>
+
     <section id="cart" class="cart">
         <h2>Your Cart</h2>
         <div id="cartItems"></div>
         <strong>Total: $<span id="totalPrice">0.00</span></strong>
+        
+        
+        <button id="checkoutBtn" onclick="showCheckout()">Checkout</button>
+        
+        
+        <div id="checkoutForm" style="display:none; margin-top: 20px;">
+            <h3>Checkout Form</h3>
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="address">Address:</label><br>
+            <input type="text" id="address" name="address" required><br><br>
+
+            <label for="payment">Payment Method:</label><br>
+            <select id="payment">
+                <option value="credit">Credit Card</option>
+                <option value="paypal">PayPal</option>
+            </select><br><br>
+
+            <button onclick="processPayment()">Submit Payment</button>
+        </div>
     </section>
 
     <script>
         let cart = [];
         let total = 0;
-        let isLoggedIn = false;
 
         function addToCart(item, price) {
-            if (!isLoggedIn) {
-                alert("يرجى تسجيل الدخول لإضافة عناصر إلى السلة.");
-                return;
-            }
             cart.push({ item, price });
             total += price;
             updateCart();
@@ -164,19 +271,60 @@
 
         function updateCart() {
             const cartItemsDiv = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const totalPrice = document.getElementById('totalPrice');
             cartItemsDiv.innerHTML = '';
-            cart.forEach(cartItem => {
-                const div = document.createElement('div');
-                div.className = 'cart-item';
-                div.innerHTML = `<span>${cartItem.item}</span><span>$${cartItem.price.toFixed(2)}</span>`;
-                cartItemsDiv.appendChild(div);
+
+            cart.forEach((cartItem, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('cart-item');
+                itemDiv.innerHTML = `
+                    ${cartItem.item} - $${cartItem.price.toFixed(2)}
+                    <button onclick="removeFromCart(${index})">Remove</button>
+                `;
+                cartItemsDiv.appendChild(itemDiv);
             });
-            document.getElementById('totalPrice').textContent = total.toFixed(2);
-            document.getElementById('cartCount').textContent = cart.length;
+
+            cartCount.innerText = cart.length;
+            totalPrice.innerText = total.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+       
+        function showCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            document.getElementById('checkoutForm').style.display = 'block';
         }
 
         
+        function processPayment() {
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const paymentMethod = document.getElementById('payment').value;
+
+            if (name === '' || address === '') {
+                alert('Please fill in all the fields.');
+                return;
+            }
+
+            
+            alert(`Thank you, ${name}! Your payment of $${total.toFixed(2)} using ${paymentMethod} has been processed.`);
+
+            
+            cart = [];
+            total = 0;
+            updateCart();
+            document.getElementById('checkoutForm').style.display = 'none';
+        }
     </script>
 
 </body>
-</html>  
+</html>

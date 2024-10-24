@@ -1,83 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <title>Responsive Login Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="LoginStyle.css" />
+    <link rel="stylesheet" href="../Login/LoginStyle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
     <script>
-      function validateLoginForm() {
-        // Get form elements
-        var email = document.getElementById('loginEmail').value;
-        var password = document.getElementById('loginPassword').value;
+        async function loginUser(event) {
+            event.preventDefault(); 
+            var email = document.getElementById('loginEmail').value;
+            var password = document.getElementById('loginPassword').value;
 
-        // Regular expression for validating email
-        var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            // Validate the login form
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!emailPattern.test(email)) {
+                Swal.fire('Invalid Email', 'Please enter a valid email address.', 'error');
+                return;
+            }
+            if (password === "") {
+                Swal.fire('Missing Password', 'Password is required.', 'error');
+                return;
+            }
 
-        // Email validation
-        if (!emailPattern.test(email)) {
-          alert("Please enter a valid email address.");
-          return false;
+            // Fetch API call to login
+            try {
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json(); 
+                if (response.ok) {
+                    localStorage.setItem('token', data.token); // Store the token received from the server
+                    window.location.href = "/MyRestrunt/Front-end/MainPage/restrunt.html"; // Redirect to the main page
+                } else {
+                    Swal.fire('Login Failed', data.message, 'error'); // Display error message
+                }
+            } catch (error) {
+                Swal.fire('Network Error', 'Please try again later.', 'error');
+            }
         }
-
-        // Password validation
-        if (password === "") {
-          alert("Password is required.");
-          return false;
-        }
-
-        return true; // Allow form submission if valid
-      }
     </script>
-  </head>
-  <body>
-    <!-- Logo Section -->
-     <div class="logo-container">
-      <a href="#">
-        <img src="Logo.jpg" alt="Logo" class="logo" />
-      </a>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="logo-container">
+        <a href="#">
+            <img src="logo.png" alt="Logo" class="logo" />
+        </a>
     </div>
-
     <div class="container">
-      <h1 class="form-title">Login</h1>
-      <form action="#" onsubmit="return validateLoginForm()">
-        <div class="main-user-info">
-          <div class="user-input-box">
-            <label for="loginEmail">Email</label>
-            <input type="email"
-                   id="loginEmail"
-                   name="loginEmail"
-                   placeholder="Enter Email"
-                   required />
-          </div>
-          <div class="user-input-box">
-            <label for="loginPassword">Password</label>
-            <input type="password"
-                   id="loginPassword"
-                   name="loginPassword"
-                   placeholder="Enter Password"
-                   required />
-          </div>
-
-          <!-- Remember Me Checkbox -->
-          <div class="remember-me-box">
-            <input type="checkbox" id="rememberMe" name="rememberMe">
-            <label for="rememberMe">Remember me</label>
-          </div>
-        </div>
-
-        <!-- Forgot Password and Registration Links -->
-        <div class="form-extra-options">
-          <a href="ForgotPassword.html">Forgot password?</a>
-          <span> | </span>
-          <a href="registration.html">Don't have an account? Register now</a>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="form-submit-btn">
-          <input type="submit" value="Login">
-        </div>
-      </form>
+        <h1 class="form-title">Login</h1>
+        <form onsubmit="loginUser(event)">
+            <div class="main-user-info">
+                <div class="user-input-box">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="loginEmail" placeholder="Enter Email" required />
+                </div>
+                <div class="user-input-box">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter Password" required />
+                </div>
+                <div class="remember-me-box">
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+            </div>
+            <div class="form-extra-options">
+                <a href="../Login/forgotPassword.html">Forgot password?</a>
+                <span> | </span>
+                <a href="../Login/registration.html">Don't have an account? Register now</a>
+            </div>
+            <div class="form-submit-btn">
+                <input type="submit" value="Login">
+            </div>
+        </form>
     </div>
-  </body>
+</body>
 </html>

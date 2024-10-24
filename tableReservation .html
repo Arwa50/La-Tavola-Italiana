@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,17 @@
             background-position: center;
             position: relative;
         }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 150%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
         .container {
             max-width: 400px;
             margin: auto;
@@ -27,17 +39,20 @@
             border-radius: 16px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
-            font-size: 24px; 
+            font-size: 24px;
         }
+
         label {
             display: block;
             margin: 15px 0 5px;
             color: #555;
-            font-size: 16px; 
+            font-size: 16px;
         }
+
         input[type="date"],
         input[type="number"],
         input[type="text"],
@@ -48,9 +63,10 @@
             margin: 5px 0 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 16px; 
+            font-size: 16px;
             color: #555555e0;
         }
+
         button {
             background-color: #cdbbab;
             color: white;
@@ -59,120 +75,220 @@
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            font-size: 16px; 
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
+
         button:hover {
-            background-color: #5058d4;
+            background-color: #6a70c5;
         }
+
         .guest-count {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 10px 0;
         }
+
         .guest-count button {
-            width: 30px; 
-            height: 30px; 
-            font-size: 18px; 
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
         }
+
         .guest-count input {
             width: 40px;
-            text-align: center; 
-            font-size: 16px; 
-            margin: 0 5px; 
+            text-align: center;
+            font-size: 16px;
+            margin: 0 5px;
         }
+
         .time-slot {
             display: flex;
             align-items: center;
             margin: 10px 0;
         }
+
         .time-slot input {
             margin-right: 10px;
         }
-        ::placeholder{
+
+        ::placeholder {
             color: rgba(85, 85, 85, 0.5);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+        }
+
+        .loading.active {
+            display: block;
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Table Reservation</h1>
-    <label for="name">Name</label>
-    <input type="text" placeholder="Your name or reservation name" required>
-    <label for="tel">Phone Number</label>
-    <input type="tel" placeholder="05XXXXXXXX" required>
-    <label for="date">Reservation Date</label>
-    <input type="date" id="date" required>
+    <div class="overlay"></div>
 
-    <label for="table">Choose Table Location</label>
-    <select id="table">
-        <option value="view">View</option>
-        <option value="kitchen">In Front of the Kitchen</option>
-        <option value="outdoor">Outdoor</option>
-        <option value="corner">Quiet Corner</option>
-        <option value="private">Private Room</option>
-    </select>
+    <div class="container">
+        <h1>Table Reservation</h1>
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Your name or reservation name" required aria-label="Your name or reservation name">
+        
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="05XXXXXXXX" required aria-label="Your phone number" pattern="^\d{10}$" title="Please enter a valid 10-digit phone number.">
 
-    <label>Number of Guests</label>
-    <div class="guest-count">
-        <button onclick="decreaseGuests()">-</button>
-        <input type="number" id="guests" min="1" max="10" value="2" readonly required>
-        <button onclick="increaseGuests()">+</button>
+        <label for="date">Reservation Date</label>
+        <input type="date" id="date" required aria-label="Reservation date">
+
+        <label for="table">Choose Table Location</label>
+        <select id="table" aria-label="Table location">
+            <option value="view">View</option>
+            <option value="kitchen">In Front of the Kitchen</option>
+            <option value="outdoor">Outdoor</option>
+            <option value="corner">Quiet Corner</option>
+            <option value="private">Private Room</option>
+        </select>
+
+        <label>Number of Guests</label>
+        <div class="guest-count">
+            <button type="button" onclick="decreaseGuests()">-</button>
+            <input type="number" id="guests" min="1" max="10" value="2" readonly required aria-label="Number of guests">
+            <button type="button" onclick="increaseGuests()">+</button>
+        </div>
+
+        <label>Available Times</label>
+        <div class="time-slot">
+            <input type="radio" id="time1" name="time" value="5:30 pm" required aria-label="5:30 PM">
+            <label for="time1">5:30 PM</label>
+            <input type="radio" id="time2" name="time" value="6:00 pm" required aria-label="6:00 PM">
+            <label for="time2">6:00 PM</label>
+            <input type="radio" id="time3" name="time" value="6:30 pm" required aria-label="6:30 PM">
+            <label for="time3">6:30 PM</label>
+        </div>
+
+        <label for="notes">Any Notes?</label>
+        <input type="text" id="notes" placeholder="Notes about the reservation" aria-label="Notes about the reservation">
+
+        <button type="submit" onclick="submitReservation()">Submit Reservation</button>
+        <div class="loading" id="loading">Submitting reservation...</div>
     </div>
 
-    <label>Available Times</label>
-    <div class="time-slot">
-        <input type="radio" id="time1" name="time" value="5:30 pm" required>
-        <label for="time1">5:30 PM</label>
-        <input type="radio" id="time2" name="time" value="6:00 pm" required>
-        <label for="time2">6:00 PM</label>
-        <input type="radio" id="time3" name="time" value="6:30 pm" required>
-        <label for="time3">6:30 PM</label>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-    <label>Any Notes?</label>
-    <input type="text" placeholder="Notes about the reservation">
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Login Required',
+                    text: 'Please log in to make a reservation.',
+                    confirmButtonText: 'Go to Login'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/MyRestrunt/Front-end/Login/login.html";
+                    }
+                });
+            }
 
-    <button type="submit" onclick="submitReservation()">Submit Reservation</button>
-</div>
-<script>
-    // Set today's date as the value for the date input
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('date').value = today;
-    });
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+        });
 
-    function increaseGuests() {
-        const guestsInput = document.getElementById('guests');
-        let currentValue = parseInt(guestsInput.value);
-        if (currentValue < 10) {
-            guestsInput.value = currentValue + 1;
+        function decreaseGuests() {
+            let guests = document.getElementById('guests');
+            if (guests.value > 1) {
+                guests.value--;
+            }
         }
-    }
 
-    function decreaseGuests() {
-        const guestsInput = document.getElementById('guests');
-        let currentValue = parseInt(guestsInput.value);
-        if (currentValue > 1) {
-            guestsInput.value = currentValue - 1;
+        function increaseGuests() {
+            let guests = document.getElementById('guests');
+            if (guests.value < 10) {
+                guests.value++;
+            }
         }
-    }
 
-    function submitReservation() {
-    Swal.fire({
-        title: 'Do you want to complete the reservation without selecting orders or choose orders?',
-        showCancelButton: true,
-        confirmButtonText: 'Complete Reservation',
-        cancelButtonText: 'Choose Orders'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            alert("Your reservation has been successfully made!");
-        } else if (result.isDismissed) {
-            window.location.href = "menu.html"; // Replace with the actual path to your menu page
+        function submitReservation() {
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const reservationDate = document.getElementById('date').value;
+            const tableLocation = document.getElementById('table').value;
+            const numberOfGuests = document.getElementById('guests').value;
+            const time = document.querySelector('input[name="time"]:checked')?.value;
+            const notes = document.getElementById('notes').value.trim();
+
+            const phonePattern = /^[0-9]{10}$/; 
+            if (!name || !phonePattern.test(phone) || !reservationDate || !tableLocation || !numberOfGuests || !time) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Information',
+                    text: 'Please fill out all required fields correctly.',
+                });
+                return;
+            }
+
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Login Required',
+                    text: 'Please log in to make a reservation.',
+                    confirmButtonText: 'Go to Login'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/MyRestrunt/Front-end/Login/login.html";
+                    }
+                });
+                return;
+            }
+
+            document.getElementById('loading').classList.add('active');
+            fetch('http://localhost:3000/api/reservations/reserve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    name,
+                    phone,
+                    reservationDate,
+                    tableLocation,
+                    numberOfGuests,
+                    time,
+                    notes
+                })
+            })
+            .then(response => {
+                document.getElementById('loading').classList.remove('active');
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Reservation Successful',
+                        text: 'Your reservation has been confirmed!',
+                    });
+                    document.getElementById('name').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('date').value = today;
+                    document.getElementById('table').value = 'view';
+                    document.getElementById('guests').value = '2';
+                    document.querySelector('input[name="time"]:checked').checked = false;
+                    document.getElementById('notes').value = '';
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to submit your reservation. Please try again.',
+                    });
+                }
+            })
+            
         }
-    });
-}
-</script>
+    </script>
 </body>
+
 </html>

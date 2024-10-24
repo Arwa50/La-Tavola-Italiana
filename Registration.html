@@ -1,120 +1,131 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8" />
     <title>Responsive Registration Form</title>
-    <meta name="viewport"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="RegistrationStyle.css" />
     <script>
-      function validateForm() {
-        // Get the form elements
-        var fullName = document.getElementById('fullName').value;
-        var username = document.getElementById('username').value;
-        var email = document.getElementById('email').value;
-        var phoneNumber = document.getElementById('phoneNumber').value;
-        var password = document.getElementById('password').value;
-        var confirmPassword = document.getElementById('confirmPassword').value;
+        async function registerUser(event) {
+            event.preventDefault(); 
 
-        // Regular expression for validating email
-        var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            // Get the form elements
+            var fullName = document.getElementById('fullName').value;
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            var phoneNumber = document.getElementById('phoneNumber').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
 
-        // Full name and username validation
-        if (fullName === "" || username === "") {
-          alert("Full name and username are required.");
-          return false;
+            // Regular expression for validating email
+            var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            // Full name and username validation
+            if (fullName === "" || username === "") {
+                alert("Full name and username are required.");
+                return;
+            }
+
+            // Email validation
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // Password match validation
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            // Phone number validation
+            if (phoneNumber !== "" && isNaN(phoneNumber)) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
+
+            // Send data to the server
+            try {
+                const response = await fetch('http://localhost:3000/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        fullName, 
+                        username, 
+                        email, 
+                        phoneNumber, 
+                        password 
+                    }),
+                });
+
+                const data = await response.text();
+                if (response.ok) {
+                    alert("Registration successful!");
+                    // Redirect to the main page after successful registration
+                    window.location.href = '/MyRestrunt/Front-end/MainPage/restrunt.html'; 
+                } else {
+                    alert(data);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert("Network error, please try again.");
+            }
         }
 
-        // Email validation
-        if (!emailPattern.test(email)) {
-          alert("Please enter a valid email address.");
-          return false;
-        }
-
-        // Password match validation
-        if (password !== confirmPassword) {
-          alert("Passwords do not match.");
-          return false;
-        }
-
-        // Optional: Phone number validation
-        if (phoneNumber !== "" && isNaN(phoneNumber)) {
-          alert("Please enter a valid phone number.");
-          return false;
-        }
-
-        return true; // Allow form submission if everything is valid
-      }
     </script>
-  </head>
-  <body>
+</head>
+<body>
     <!-- Logo Section -->
     <div class="logo-container">
-      <a href="#">
-        <img src="Logo.jpg" alt="Logo" class="logo" />
-      </a>
+        <a href="#">
+            <img src="logo.png" alt="Logo" class="logo" />
+        </a>
     </div>
 
-    <a href="ITALIANA_Image.jpg"></a>
     <div class="container">
-      <h1 class="form-title">Registration</h1>
-      <form action="#" onsubmit="return validateForm()">
-        <div class="main-user-info">
-          <div class="user-input-box">
-            <label for="fullName">Full Name</label>
-            <input type="text"
-                    id="fullName"
-                    name="fullName"
-                    placeholder="Enter Full Name" required/>
-          </div>
-          <div class="user-input-box">
-            <label for="username">Username</label>
-            <input type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter Username" required/>
-          </div>
-          <div class="user-input-box">
-            <label for="email">Email</label>
-            <input type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter Email" required/>
-          </div>
-          <div class="user-input-box">
-            <label for="phoneNumber">Phone Number</label>
-            <input type="text"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    placeholder="Enter Phone Number"/>
-          </div>
-          <div class="user-input-box">
-            <label for="password">Password</label>
-            <input type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter Password" required/>
-          </div>
-          <div class="user-input-box">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Confirm Password" required/>
-          </div>
-        </div>
-        <div class="gender-details-box">
-          <span class="gender-title">Gender</span>
-          <div class="gender-category">
-            <input type="radio" name="gender" id="male" required>
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female">
-            <label for="female">Female</label>
-          </div>
-        </div>
-        <div class="form-submit-btn">
-          <input type="submit" value="Register">
-        </div>
-      </form>
+        <h1 class="form-title">Registration</h1>
+        <form onsubmit="registerUser(event)">
+            <div class="main-user-info">
+                <div class="user-input-box">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Enter Full Name" required />
+                </div>
+                <div class="user-input-box">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required />
+                </div>
+                <div class="user-input-box">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Email" required />
+                </div>
+                <div class="user-input-box">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter Phone Number" />
+                </div>
+                <div class="user-input-box">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required />
+                </div>
+                <div class="user-input-box">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
+                </div>
+            </div>
+            <div class="gender-details-box">
+                <span class="gender-title">Gender</span>
+                <div class="gender-category">
+                    <input type="radio" name="gender" id="male" required>
+                    <label for="male">Male</label>
+                    <input type="radio" name="gender" id="female">
+                    <label for="female">Female</label>
+                </div>
+            </div>
+            <div class="form-submit-btn">
+                <input type="submit" value="Register">
+            </div>
+        </form>
     </div>
-  </body>
+</body>
 </html>

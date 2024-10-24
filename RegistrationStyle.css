@@ -10,7 +10,7 @@ body {
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background: url(ITALIANA_Image.jpg);
+    background: url(Background.webp);
     background-size: cover;
     background-position: center;
 }

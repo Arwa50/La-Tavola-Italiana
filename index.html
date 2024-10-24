@@ -5,15 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Reservation</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 </head>
 <body>
-    <img id="logo" src="logo.png" alt="Restaurant Logo"> <!-- Reference the new logo -->
+    <div class="overlay"></div>
+    <img id="logo" src="logo.png" alt="Restaurant Logo"> 
     <div class="container">
         <h1>Restaurant Reservation</h1>
         <div class="button-group">
-            <a href="delivery.html" class="button">Delivery</a>
-            <a href="pickup.html" class="button">Pick-Up</a>
+            <a href="#" id="delivery-btn" class="button">Delivery</a>
+            <a href="#" id="pickup-btn" class="button">Pick-Up</a>
         </div>
     </div>
+
+    <script>
+        // Function to show login notification
+        function showLoginNotification() {
+            Swal.fire({
+                title: 'You need to log in to proceed',
+                text: "Please log in to access the delivery or pick-up options.",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Login',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/MyRestrunt/Front-end/Login/login.html'; // Redirect to login page if user confirms
+                }
+            });
+        }
+    
+        // Function to check if user is logged in
+        function isUserLoggedIn() {
+            // Check if a token or user info exists in localStorage
+            return !!localStorage.getItem('token'); 
+        }
+    
+        // Add event listeners to the "Delivery" and "Pick-Up" buttons
+        document.getElementById('delivery-btn').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            if (isUserLoggedIn()) {
+                window.location.href = '/MyRestrunt/Front-end/Pickup/delivery.html'; // Proceed to delivery page
+            } else {
+                showLoginNotification(); // Show login notification
+            }
+        });
+    
+        document.getElementById('pickup-btn').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            if (isUserLoggedIn()) {
+                window.location.href = '/MyRestrunt/Front-end/Pickup/pickup.html'; // Proceed to pickup page
+            } else {
+                showLoginNotification(); // Show login notification
+            }
+        });
+    </script>
+    
 </body>
 </html>
