@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <img id="logo" src="logo.png" alt="Restaurant Logo"> <!-- Reference the new logo -->
+    <div class="overlay"></div>
+    <img id="logo" src="logo.png" alt="Restaurant Logo"> 
     <div class="container">
         <h1>Delivery Information</h1>
         <form id="delivery-form">
@@ -33,19 +34,34 @@
     <script>
         document.getElementById('delivery-form').addEventListener('submit', function(event) {
             event.preventDefault();
-
-            // Store form data in localStorage
+    
             const name = document.getElementById('name').value;
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
-
-            localStorage.setItem('name', name);
-            localStorage.setItem('address', address);
-            localStorage.setItem('phone', phone);
-            localStorage.setItem('branch', 'N/A'); // No branch needed for delivery
-
-            alert('Delivery Information Submitted!');
+    
+            fetch('http://localhost:3000/api/delivery', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+                },
+                body: JSON.stringify({ name, address, phone }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert(data);
+                window.location.href = "/MyRestrunt/Front-end/Menu/menu.html"; // Redirect to the menu page
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
         });
     </script>
+    
 </body>
 </html>

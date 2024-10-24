@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <img id="logo" src="logo.png" alt="Restaurant Logo"> <!-- Reference the new logo -->
+    <div class="overlay"></div>
+    <img id="logo" src="logo.png" alt="Restaurant Logo"> 
     <div class="container">
         <h1>Select Branch</h1>
         <form id="pickup-form">
             <div class="input-group">
                 <label for="branch">Branch</label>
                 <select id="branch" required>
+                    <option value="">-- Select a Branch --</option> 
                     <option value="Hitte Branch">Hitte Branch</option>
                     <option value="Almalqa Branch">Almalqa Branch</option>
                 </select>
@@ -27,13 +29,38 @@
         document.getElementById('pickup-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Store form data in localStorage
-            localStorage.setItem('branch', document.getElementById('branch').value);
-            localStorage.setItem('name', 'N/A'); // No name needed for branch pickup
-            localStorage.setItem('address', 'N/A'); // No address needed for branch pickup
-            localStorage.setItem('phone', 'N/A'); // No phone needed for branch pickup
+            const branch = document.getElementById('branch').value;
 
-            alert('Branch Selected: ' + document.getElementById('branch').value);
+            // Check if the branch is selected
+            if (!branch) {
+                alert('Please select a branch!');
+                return;
+            }
+
+            fetch('http://localhost:5000/api/pickup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token') || ''}`, 
+                },
+                body: JSON.stringify({ branch }),
+            })
+            .then(response => {
+                console.log('Response:', response); // Log the response for debugging
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert(data);
+                window.location.href = "/MyRestrunt/Front-end/Menu/menu.html"; // Redirect to the menu page
+            })
+            .catch(error => {
+                console.error('Error during fetch:', error);
+                alert('There was an error processing your request. Please try again later.');
+            });
+
         });
     </script>
 </body>
