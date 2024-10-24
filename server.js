@@ -184,7 +184,7 @@ app.post('/api/reservations/reserve', authMiddleware, async (req, res) => {
         await newReservation.save();
         return res.status(201).json({ message: 'Reservation created successfully' });
     } catch (error) {
-        console.error('Error saving reservation:', error); // Log the full error object
+        console.error('Error saving reservation:', error); 
         return res.status(500).json({ message: 'Failed to save reservation', error: error.message });
     }
 });
